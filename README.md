@@ -3,11 +3,7 @@
 Prototype platform kecerdasan energi nasional untuk memprediksi kebutuhan
 penyimpanan (BESS) antar-microgrid di kepulauan Indonesia Timur, dan
 menentukan pre-positioning unit BESS secara adaptif sebelum defisit energi
-terjadi — dikirim lintas pulau melalui jalur Tol Laut.
-
-Dikembangkan untuk YESC 2026 (BRIN / Enerviro), mengimplementasikan arsitektur
-delapan modul (M0–M7) yang diusulkan pada naskah esai ilmiah SIMPUL. Seluruh
-data yang ditampilkan adalah data simulasi.
+terjadi — dikirim lintas pulau melalui jalur Tol Laut. Seluruh data yang ditampilkan adalah data simulasi.
 
 ## Menjalankan secara lokal
 

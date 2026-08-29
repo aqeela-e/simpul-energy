@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg-deep: #F6F8F9;
+  --bg-deep-2: #EFF3F3;
+  --bg-card: #FFFFFF;
+  --bg-card-soft: #FBFCFC;
+  --bg-border: #DCE3E3;
+  --bg-border-soft: #E8EDED;
+  --accent-teal: #0D9488;
+  --accent-teal-light: #14B8A6;
+  --accent-amber: #D97706;
+  --accent-red: #E11D48;
+  --accent-blue: #2563EB;
+  --text-primary: #111827;
+  --text-muted: #5B6472;
+  --text-dim: #94A0AC;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  /* Guard against any child forcing the viewport wider than the screen on mobile. */
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive safety net (all-device pass) — pure CSS, no logic changes.  */
+/* ---------------------------------------------------------------------- */
+
+/* Long machine-generated strings (SHA-256 hashes, IDs, timestamps, entity
+   names) must wrap inside their card instead of forcing horizontal scroll
+   or overlapping neighbouring text on narrow screens. */
+.break-anywhere,
+code, pre {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Any element that opts into horizontal scrolling (tables, wide diagrams)
+   gets smooth touch scrolling and never visually breaks out of its card. */
+.scroll-x-safe {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+/* Respect notches / home-indicator on mobile devices for fixed UI. */
+@supports (padding: max(0px)) {
+  .safe-bottom { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+  .safe-top { padding-top: max(0px, env(safe-area-inset-top)); }
+}
+
+/* Leaflet renders its own panes/controls with internal z-index values up to
+   1000. `isolation: isolate` pins those to a local stacking context so they
+   can never paint above sibling UI (navbar, modals) outside the map card,
+   regardless of how Leaflet's internal z-index changes across versions. */
+.leaflet-map-isolation {
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
+}
+.leaflet-map-isolation .leaflet-container {
+  isolation: isolate;
+  z-index: 0;
+}
+/* Belt-and-braces: explicitly keep Leaflet's own control layer under the
+   app navbar (z-50) even if something removes the isolation above. */
+.leaflet-map-isolation .leaflet-top,
+.leaflet-map-isolation .leaflet-bottom {
+  z-index: 40 !important;
+}
+
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+::selection { background: rgba(20,184,166,0.22); color: #0B3B36; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-teal-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px rgba(17,24,39,0.03), 0 8px 20px -12px rgba(17,24,39,0.08);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  border-color: var(--bg-border);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(17,24,39,0.04), 0 16px 28px -14px rgba(17,24,39,0.12);
+}
+
+.card-glow {
+  box-shadow: 0 1px 2px rgba(17,24,39,0.03), 0 12px 28px -16px rgba(13,148,136,0.18);
+}
+
+/* Panel used behind the nav / glass surfaces */
+.glass {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Status badges */
+.badge-normal { background: rgba(13,148,136,0.1); color: #0D9488; border: 1px solid rgba(13,148,136,0.22); }
+.badge-warning { background: rgba(217,119,6,0.1); color: #B45309; border: 1px solid rgba(217,119,6,0.22); }
+.badge-critical { background: rgba(225,29,72,0.1); color: #BE123C; border: 1px solid rgba(225,29,72,0.22); }
+
+/* Emphasis text — solid accent color, no rainbow gradient */
+.text-gradient { color: var(--accent-teal); }
+
+/* Eyebrow label used above section headings */
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+}
+
+/* Pulse ring used by status badges/dots in the UI */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* Same pulse, usable inside Leaflet divIcon inline HTML (no Tailwind/currentColor context there) */
+@keyframes simpul-pulse {
+  0% { transform: scale(0.75); opacity: 0.8; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+/* Slow ambient spin, used for the map's decorative radar sweep */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 10s linear infinite; }
+
+/* Soft float used for ambient blobs */
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -14px); }
+}
+.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+/* Leaflet control tweaks so the zoom buttons match the light UI and are
+   easy to see/tap on mobile (default Leaflet buttons are quite small and
+   easy to miss against a light basemap). */
+.leaflet-container { font-family: 'Inter', sans-serif; background: #EAF2F0; }
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.18) !important;
+  overflow: hidden;
+}
+.leaflet-control-zoom a {
+  color: var(--text-primary) !important;
+  background: #fff !important;
+  border-color: var(--bg-border) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+.leaflet-control-zoom a:active { background: var(--bg-card-soft) !important; }
+.leaflet-control-attribution {
+  background: rgba(255,255,255,0.75) !important;
+  font-size: 10px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.input{background:var(--bg-card);border:1px solid var(--bg-border);color:var(--text-primary);border-radius:.5rem;padding:.6rem .75rem;outline:none;}
+.input:focus{border-color:var(--accent-teal);box-shadow:0 0 0 2px rgba(20,184,166,.12)}
+/* Consistent, tidy native <select> rendering across browsers/mobile — without
+   this, some mobile browsers render the default dropdown arrow flush against
+   the text (looks cramped/"jelek") or clip long selected labels. Reserving
+   space on the right for a custom chevron fixes both. */
+.select-native{
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2394A3B8' stroke-width='1.6'><path d='M5 7l5 5 5-5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right .65rem center;
+  background-size:1.1em;
+  padding-right:2.25rem;
+  text-overflow:ellipsis;
+}
+.btn-small{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .7rem;border-radius:.5rem;font-size:.75rem;font-weight:600;background:rgba(13,148,136,.12);color:#0D9488;border:1px solid rgba(13,148,136,.25);cursor:pointer;}
+.btn-small:hover{filter:brightness(1.08)}

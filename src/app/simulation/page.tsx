@@ -28,7 +28,7 @@ export default function SimulationPage(){
   {label:'PROVE',text:'Static allocation dibandingkan dengan adaptive pre-positioning',icon:ShieldCheck},
  ];
  const execute=async()=>{setPhase('running');setStep(0);for(let i=0;i<steps.length;i++){await new Promise(r=>setTimeout(r,500));setStep(i+1);}const r=runScenario(scenario,critical.id);setResult(r);setPhase('done');};
- const before=result?.before ?? calculateScenario(critical,'baseline',true); const after=result?.after ?? calculateScenario(critical,scenario,scenario!=='unavailable');
+ const before=result?.before ?? calculateScenario(critical,scenario,false); const after=result?.after ?? calculateScenario(critical,scenario,scenario!=='unavailable');
  const kpis=[['Pemanfaatan EBT','renewableUtilization','up','%'],['Kurtailmen','curtailment','down','%'],['Cakupan Beban Kritis','criticalLoadCoverage','up','%'],['Kesiapan Unit','unitReadiness','up','%'],['Waktu Kesiapan Pasokan','supplyReadinessTime','down',' jam']];
  const nextSailing=route?nextSailingDate(SEA_ROUTES[route],new Date()):null;
  return <div className="min-h-screen pb-16 px-4 sm:px-6 max-w-screen-xl mx-auto">

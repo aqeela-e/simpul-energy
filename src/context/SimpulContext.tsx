@@ -254,3 +254,4 @@ const resetDemo=()=>{try{localStorage.removeItem(KEY)}catch{};lastHashRef.curren
 // eslint-disable-next-line react-hooks/exhaustive-deps
 const value=useMemo(()=>({...state,hydrated,unread:state.notifications.filter(n=>!n.read).length,operationalMicrogrids,operationalBess,createReport,verifyReport,createRecommendation,approveRecommendation,createShipment,updateShipment,confirmArrival,confirmIntegration,integrateShipment,markRead,resolveIncident,activateIncident,confirmIncident,moveIncidentToVerification,updatePortStatus,resetDemo,runScenario,verifyAuditChain,getShipmentLiveState:getShipmentLive,getVesselPosition:getVesselLive}),[state,hydrated,operationalMicrogrids,operationalBess,user]);return <C.Provider value={value}>{children}</C.Provider>}
 export const useSimpul=()=>{const c=useContext(C);if(!c)throw new Error('useSimpul must be used inside SimpulProvider');return c;};
+
